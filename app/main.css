@@ -1,0 +1,17 @@
+.title {
+    font-size: 25px;
+    font-weight: 700;
+    color: #ededed;
+}
+
+.list {
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+    gap: 25px;
+}
+
+.list--item {
+    width: 300px;
+    height: 500px;
+    overflow-y: auto;
+}
