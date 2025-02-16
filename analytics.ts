@@ -1,5 +1,6 @@
 import {WebTelemetryResources} from "@salutejs/web-telemetry/lib/presets/WebTelemetryResources";
 import {WebTelemetryKV} from "@salutejs/web-telemetry/lib/presets/WebTelemetryKV";
+import {WebTelemetryCanvasApp} from "@salutejs/web-telemetry/lib/presets/WebTelemetryCanvasApp";
 
 const defaultConfig = {
     projectName: '',
@@ -18,6 +19,16 @@ export const webTelemetryResourcesInit = () => {
         debug: process.env.NODE_ENV === 'development',
     })
 }
+
+export const webTelemetryCanvasAppInit = () => {
+    const webTelemetryCanvasApp = new WebTelemetryCanvasApp({
+        projectName: 'speed-metrics',
+        debug: process.env.NODE_ENV === 'development',
+    });
+    webTelemetryCanvasApp.setMetric('appVersion', process.env.NEXT_PUBLIC_RELEASE ?? '');
+
+    return webTelemetryCanvasApp;
+};
 
 export const WebTelemetryKVInit = new WebTelemetryKV({
     ...defaultConfig,
