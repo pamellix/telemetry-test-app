@@ -1,6 +1,6 @@
 'use client'
 
-import {useEffect, useRef, useState} from 'react';
+import {useLayoutEffect, useRef, useState, useEffect} from 'react';
 import {NextWebVitalsMetric} from 'next/app';
 import {WebTelemetryKVInit} from '@/analytics';
 import {NewsItem} from '@/components/NewsItem';
@@ -56,14 +56,16 @@ export default function Home() {
 
     const isFMPSent = useRef(false);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (isClientNewsAvailable && !isFMPSent.current) {
             const FMP = Math.round(performance.now());
             isFMPSent.current = true;
             import('@/analytics').then(({ webTelemetryCanvasAppInit }) => {
                 const webTelemetryCanvasApp = webTelemetryCanvasAppInit();
+                console.log(webTelemetryCanvasApp)
                 webTelemetryCanvasApp.setMetric('FMP', FMP);
                 webTelemetryCanvasApp.send();
+                console.log(webTelemetryCanvasApp)
             });
         }
     }, [isClientNewsAvailable]);
