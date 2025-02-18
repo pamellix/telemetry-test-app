@@ -9,8 +9,10 @@ export default function Home() {
     const [data, setData] = useState<Array<{ name: string, items: Array<{ guid: string, pictureSet: string, title: string, description: string }> }>>();
     const [isClientNewsAvailable, setIsClientNewsAvailable] = useState(false);
 
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
+
     useEffect(() => {
-        fetch('http://localhost:3000/api/posts')
+        fetch(`${backendUrl}/api/posts`)
             .then((response) => response.json())
             .then(async (res) => {
                 const updatedData = await addImagesToNews(res);
