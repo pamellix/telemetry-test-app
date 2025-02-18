@@ -1,18 +1,20 @@
 'use client'
 
-import {useLayoutEffect, useRef, useState, useEffect} from 'react';
-import {NewsItem} from '@/components/NewsItem';
-import './main.css'
+import { useLayoutEffect, useRef, useState, useEffect } from 'react';
+import { NewsItem } from '@/components/NewsItem';
+import './main.css';
+
 
 export default function Home() {
-    const [data, setData] = useState<Array<{name: string, items: Array<{ guid: string, pictureSet: string, title: string, description: string }>}>>();
+    const [data, setData] = useState<Array<{ name: string, items: Array<{ guid: string, pictureSet: string, title: string, description: string }> }>>();
     const [isClientNewsAvailable, setIsClientNewsAvailable] = useState(false);
 
     useEffect(() => {
         fetch('http://localhost:3000/api/posts')
             .then((response) => response.json())
-            .then((res) => {
-                setData(res);
+            .then(async (res) => {
+                const updatedData = await addImagesToNews(res);
+                setData(updatedData);
                 setIsClientNewsAvailable(true);
             });
 
@@ -39,13 +41,46 @@ export default function Home() {
             isFMPSent.current = true;
             import('@/analytics').then(({ webTelemetryCanvasAppInit }) => {
                 const webTelemetryCanvasApp = webTelemetryCanvasAppInit();
-                console.log(webTelemetryCanvasApp)
+                console.log(webTelemetryCanvasApp);
                 webTelemetryCanvasApp.setMetric('FMP', FMP);
                 webTelemetryCanvasApp.send();
-                console.log(webTelemetryCanvasApp)
+                console.log(webTelemetryCanvasApp);
             });
         }
     }, [isClientNewsAvailable]);
+
+    const addImagesToNews = async (newsData: Array<{name: string, items: Array<{guid: string, title: string, description: string, pictureSet: string}>}>) => {
+        const headers = new Headers({
+            "Content-Type": "application/json",
+            "x-api-key": `${process.env.API_KEY}`
+        });
+
+        const requestOptions = {
+            method: 'GET',
+            headers: headers,
+        }
+
+        const imgArray = await Promise.all(
+            newsData[0].items.map(async () => {
+                const response = await fetch("https://api.thecatapi.com/v1/images/search", requestOptions)
+                const result = await response.json();
+                return result[0].url;
+            })
+        );
+
+        
+        await fetch("https://api.thecatapi.com/v1/images/search", requestOptions)
+            .then(res => res.text())
+            .then(result => imgArray.push(JSON.parse(result)))
+            .catch(error => console.log(error))
+
+        newsData[0].items = newsData[0].items.map((item, index) => ({
+            ...item,
+            pictureSet: imgArray[index]
+        }));
+
+        return newsData;
+    };
 
     return (
         <div className="container">
