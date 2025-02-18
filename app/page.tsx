@@ -13,20 +13,6 @@ export function reportWebVitals(metrics: NextWebVitalsMetric) {
     });
 }
 
-
-// export async function getStaticProps() {
-//     const { fixturesNews } = await import('@/fixtures/news');
-//
-//     return {
-//         props: {
-//             serverSideNews: fixturesNews.slice(0, 1).map(({ items, ...rest }) => ({
-//                 ...rest,
-//                 items: items.slice(0, 4),
-//             })),
-//         },
-//     };
-// };
-
 export default function Home() {
     const [data, setData] = useState<Array<{name: string, items: Array<{ guid: string, pictureSet: string, title: string, description: string }>}>>();
     const [isClientNewsAvailable, setIsClientNewsAvailable] = useState(false);

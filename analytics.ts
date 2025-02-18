@@ -23,7 +23,7 @@ export const webTelemetryResourcesInit = () => {
 export const webTelemetryCanvasAppInit = () => {
     const webTelemetryCanvasApp = new WebTelemetryCanvasApp({
         ...defaultConfig,
-        projectName: 'speed-metrics',
+        projectName: 'speed-demo',
         debug: process.env.NODE_ENV === 'development',
     });
     webTelemetryCanvasApp.setMetric('appVersion', process.env.NEXT_PUBLIC_RELEASE ?? '');
