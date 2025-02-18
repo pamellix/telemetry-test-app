@@ -1,17 +1,8 @@
 'use client'
 
 import {useLayoutEffect, useRef, useState, useEffect} from 'react';
-import {NextWebVitalsMetric} from 'next/app';
-import {WebTelemetryKVInit} from '@/analytics';
 import {NewsItem} from '@/components/NewsItem';
 import './main.css'
-
-export function reportWebVitals(metrics: NextWebVitalsMetric) {
-    WebTelemetryKVInit.push({
-        key: metrics.name,
-        value: Math.round(metrics.value),
-    });
-}
 
 export default function Home() {
     const [data, setData] = useState<Array<{name: string, items: Array<{ guid: string, pictureSet: string, title: string, description: string }>}>>();
@@ -72,7 +63,7 @@ export default function Home() {
                                 pictureSet={pictureSet}
                                 title={title}
                                 description={description}
-                                position={index + 1}
+                                position={String(index + 1)}
                             />
                         ))}
                     </div>
