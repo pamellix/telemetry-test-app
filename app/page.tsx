@@ -70,12 +70,6 @@ export default function Home() {
             })
         );
 
-        
-        await fetch("https://api.thecatapi.com/v1/images/search", requestOptions)
-            .then(res => res.text())
-            .then(result => imgArray.push(JSON.parse(result)))
-            .catch(error => console.log(error))
-
         newsData[0].items = newsData[0].items.map((item, index) => ({
             ...item,
             pictureSet: imgArray[index]
