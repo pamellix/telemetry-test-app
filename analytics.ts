@@ -1,6 +1,6 @@
-import {WebTelemetryResources} from "@salutejs/web-telemetry/lib/presets/WebTelemetryResources";
-import {WebTelemetryKV} from "@salutejs/web-telemetry/lib/presets/WebTelemetryKV";
-import {WebTelemetryCanvasApp} from "@salutejs/web-telemetry/lib/presets/WebTelemetryCanvasApp";
+import { WebTelemetryCanvasApp } from '@sberdevices/web-telemetry/lib/presets/WebTelemetryCanvasApp';
+import { WebTelemetryResources } from '@sberdevices/web-telemetry/lib/presets/WebTelemetryResources';
+import { WebTelemetryKV } from '@sberdevices/web-telemetry/lib/presets/WebTelemetryKV';
 
 const defaultConfig = {
     projectName: '',
@@ -27,7 +27,6 @@ export const webTelemetryCanvasAppInit = () => {
         debug: process.env.NODE_ENV === 'development',
     });
     webTelemetryCanvasApp.setMetric('appVersion', process.env.NEXT_PUBLIC_RELEASE ?? '');
-    console.log(webTelemetryCanvasApp)
     return webTelemetryCanvasApp;
 };
 
