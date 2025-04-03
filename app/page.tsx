@@ -1,13 +1,14 @@
 'use client'
 
-import { useLayoutEffect, useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { NewsItem } from '@/components/NewsItem';
 import './main.css';
-
+import {
+    WebTelemetryMonitoringWebAppWithWebVitals
+} from "@sberdevices/web-telemetry/lib/presets/WebTelemetryMonitoringWebAppWithWebVitals";
 
 export default function Home() {
     const [data, setData] = useState<Array<{ name: string, items: Array<{ guid: string, pictureSet: string, title: string, description: string }> }>>();
-    const [isClientNewsAvailable, setIsClientNewsAvailable] = useState(false);
 
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
 
@@ -17,39 +18,17 @@ export default function Home() {
             .then(async (res) => {
                 const updatedData = await addImagesToNews(res);
                 setData(updatedData);
-                setIsClientNewsAvailable(true);
             });
 
-        import('@/analytics')
-            .then((module) => {
-                console.log('Analytics module loaded:', module);
-                if (module.webTelemetryResourcesInit) {
-                    console.log('Initializing analytics...');
-                    module.webTelemetryResourcesInit().start();
-                } else {
-                    console.error('webTelemetryResourcesInit is not defined in the module');
-                }
-            })
-            .catch((error) => {
-                console.error('Failed to load analytics module:', error);
-            });
-    }, []);
+        const monitorInstance = WebTelemetryMonitoringWebAppWithWebVitals.Instance({
+            projectName: 'speed-demo',
+            debug: process.env.NODE_ENV === 'development',
+        })
 
-    const isFMPSent = useRef(false);
-
-    useLayoutEffect(() => {
-        if (isClientNewsAvailable && !isFMPSent.current) {
-            const FMP = Math.round(performance.now());
-            isFMPSent.current = true;
-            import('@/analytics').then(({ webTelemetryCanvasAppInit }) => {
-                const webTelemetryCanvasApp = webTelemetryCanvasAppInit();
-                console.log(webTelemetryCanvasApp);
-                webTelemetryCanvasApp.setMetric('FMP', FMP);
-                webTelemetryCanvasApp.send();
-                console.log(webTelemetryCanvasApp);
-            });
-        }
-    }, [isClientNewsAvailable]);
+        monitorInstance.webApp.send()
+        monitorInstance.startMonitoring()
+        monitorInstance.startWebVitals()
+    }, [backendUrl]);
 
     const addImagesToNews = async (newsData: Array<{name: string, items: Array<{guid: string, title: string, description: string, pictureSet: string}>}>) => {
         const headers = new Headers({
@@ -85,7 +64,7 @@ export default function Home() {
             </header>
             {data && data.map(({ name, items }) => (
                 <div key={name} className="newsCategory">
-                    <h2>{name}</h2>
+                    <h2 style={{textAlign: 'center'}}>{name}</h2>
                     <div className="newsGallery">
                         {items && items.map(({ guid, pictureSet, title, description }, index) => (
                             <NewsItem

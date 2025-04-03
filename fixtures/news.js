@@ -26,6 +26,18 @@ export const fixturesNews = [
                 title: 'Breaking News 4',
                 description: 'This is the fourth breaking news.',
             },
+            {
+                guid: '5',
+                pictureSet: 'https://cdn-app.sberdevices.ru/misc/0.0.0/assets/common/d19cb2b8_5197285332016551774.png',
+                title: 'Breaking News 5',
+                description: 'This is the fifth breaking news.',
+            },
+            {
+                guid: '6',
+                pictureSet: 'https://cdn-app.sberdevices.ru/misc/0.0.0/assets/common/d19cb2b8_5197285332016551774.png',
+                title: 'Breaking News 6',
+                description: 'This is the sixth breaking news.',
+            },
         ],
     },
 ];
