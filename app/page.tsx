@@ -25,6 +25,12 @@ export default function Home() {
             debug: process.env.NODE_ENV === 'development',
         })
 
+        setTimeout(() => {
+            const ad = document.createElement('div');
+            ad.innerHTML = '<div style="height: 400px; background: black; color: white;">Хоба! Тут тестируется CLS</div>';
+            document.body.prepend(ad);
+          }, 5000);
+
         monitorInstance.webApp.send()
         monitorInstance.startMonitoring()
         monitorInstance.startWebVitals()
