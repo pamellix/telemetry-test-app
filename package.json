@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@salutejs/web-telemetry": "^2.0.13",
-    "@sberdevices/web-telemetry": "^3.0.13",
+    "@sberdevices/web-telemetry": "^3.0.16-canary.179.90c21634.0",
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
