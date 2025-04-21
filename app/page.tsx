@@ -19,21 +19,25 @@ export default function Home() {
                 const updatedData = await addImagesToNews(res);
                 setData(updatedData);
             });
-
+    
         const monitorInstance = WebTelemetryMonitoringWebAppWithWebVitals.Instance({
             projectName: 'speed-demo',
             debug: process.env.NODE_ENV === 'development',
-        })
-
+        });
+    
         setTimeout(() => {
             const ad = document.createElement('div');
-            ad.innerHTML = '<div style="height: 400px; background: black; color: white;">Хоба! Тут тестируется CLS</div>';
-            document.body.prepend(ad);
-          }, 5000);
-
-        monitorInstance.webApp.send()
-        monitorInstance.startMonitoring()
-        monitorInstance.startWebVitals()
+            ad.innerHTML = '<div style="height: 400px; background: #FFEE8C; color: black; margin: 0">Хоба! Тут тестируется CLS</div>';
+            
+            const header = document.querySelector('.header');
+            if (header) {
+                header.after(ad);
+            }
+        }, 5000);
+    
+        monitorInstance.webApp.send();
+        monitorInstance.startMonitoring();
+        monitorInstance.startWebVitals();
     }, [backendUrl]);
 
     const addImagesToNews = async (newsData: Array<{name: string, items: Array<{guid: string, title: string, description: string, pictureSet: string}>}>) => {
@@ -65,7 +69,7 @@ export default function Home() {
 
     return (
         <div className="container">
-            <header className="header">
+            <header className="header" style={{backgroundColor: '#7c0A02', margin: '0'}}>
                 <h1>Speed Metrics</h1>
             </header>
             {data && data.map(({ name, items }) => (
