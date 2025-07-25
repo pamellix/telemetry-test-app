@@ -250,7 +250,7 @@ export function Header() {
                         <LogoIcon>
                             <IconSettings size="s" color={colors.textInverse} />
                         </LogoIcon>
-                        <LogoText>Renaissance Artists</LogoText>
+                        <LogoText>Turtle Artists</LogoText>
                     </LogoSection>
 
                     {/* Desktop Navigation */}

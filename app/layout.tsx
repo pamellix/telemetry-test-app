@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import ThemeRegistry from '@/src/components/ThemeRegistry';
 
 export const metadata: Metadata = {
-    title: 'Renaissance Artists | Галерея художников Возрождения',
+    title: 'Turtle Artists | Галерея художников Возрождения',
     description: 'Знакомство с великими художниками эпохи Возрождения: Леонардо да Винчи, Донателло, Микеланджело и Рафаэль',
     keywords: 'возрождение, leonardo, donatello, michelangelo, raphael, renaissance, artists',
     icons: {

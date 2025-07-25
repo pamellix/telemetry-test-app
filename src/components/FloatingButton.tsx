@@ -51,7 +51,7 @@ export function FloatingButton() {
     }, []);
 
     const handleClick = () => {
-        window.open('https://apple.com', '_blank', 'noopener,noreferrer');
+        window.open('https://pagespeed.web.dev/analysis/https-turtle-artists-vercel-app/cvcixpx7ni?form_factor=desktop', '_blank', 'noopener,noreferrer');
     };
 
     return (

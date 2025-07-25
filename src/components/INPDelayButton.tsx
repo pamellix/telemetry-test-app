@@ -38,11 +38,6 @@ const INPDelayBtn = styled(Button)`
     }
 `;
 
-const TimerIcon = styled.span`
-    font-size: 16px;
-    margin-right: ${({ theme }) => theme.spacing[2]};
-`;
-
 // Глобальное состояние для INP задержки
 export const INPDelayContext = React.createContext({
     isDelayActive: false,
@@ -80,7 +75,6 @@ export function INPDelayButton() {
                 view={isActive ? "warning" : "primary"}
                 size="l"
                 onClick={handleToggleDelay}
-                contentLeft={<TimerIcon>⏱️</TimerIcon>}
                 contentRight={<IconTimerFill size="s" />}
             >
                 {isActive ? 'Disable INP delay' : 'Change INP delay'}

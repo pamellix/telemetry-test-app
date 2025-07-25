@@ -13,7 +13,7 @@ import { Footer } from '@/src/components/Footer';
 // Данные художников
 const artistsData = [
     {
-        name: 'Leonardo da Vinci',
+        name: 'Leonardo',
         quality: 'Гениальность',
         image: '/leonardo.jpg',
         artistImage: '/leonardo-artist.jpg',
@@ -178,7 +178,7 @@ export default function HomePage() {
                     <CLSBanner />
                     
                     <ArtistsSection>
-                        <SectionTitle>Великие мастера</SectionTitle>
+                        <SectionTitle>Мастера и Черепашки-ниндзя</SectionTitle>
                         <ArtistsGrid>
                             {artistsData.map((artist) => (
                                 <ArtistCard

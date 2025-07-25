@@ -3,8 +3,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import { Button, Card } from '@salutejs/plasma-web';
-import { tokens } from './theme/tokens';
+import { Card } from '@salutejs/plasma-web';
 
 interface ArtistCardProps {
     name: string;
@@ -72,12 +71,45 @@ const QualityBadge = styled.div`
     display: inline-flex;
     align-items: center;
     padding: ${({ theme }) => theme.spacing[2]} ${({ theme }) => theme.spacing[4]};
-    background-color: ${({ theme }) => theme.colors.accent1Bg};
-    color: ${({ theme }) => theme.colors.accent1};
+    background: linear-gradient(135deg, 
+        ${({ theme }) => theme.colors.accent1Bg} 0%, 
+        ${({ theme }) => theme.colors.accent2Bg} 50%, 
+        ${({ theme }) => theme.colors.accent3Bg} 100%);
+    background-size: 200% 200%;
+    color: white;
     border-radius: ${({ theme }) => theme.borderRadius.full};
     font-size: ${({ theme }) => theme.typography.fontSize.sm};
     font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+    font-family: ${({ theme }) => theme.typography.fontPrimary};
     align-self: flex-start;
+    transition: all ${({ theme }) => theme.transition.base};
+    position: relative;
+    overflow: hidden;
+    box-shadow: ${({ theme }) => theme.shadow.sm};
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, 
+            transparent, 
+            rgba(255, 255, 255, 0.15), 
+            transparent);
+        transition: left 0.5s;
+    }
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: ${({ theme }) => theme.shadow.md};
+        background-position: 100% 100%;
+        
+        &::before {
+            left: 100%;
+        }
+    }
 `;
 
 const Description = styled.p`
@@ -92,6 +124,61 @@ const CardActions = styled.div`
     display: flex;
     gap: ${({ theme }) => theme.spacing[3]};
     margin-top: auto;
+`;
+
+const StyledButton = styled.button`
+    width: 100%;
+    padding: ${({ theme }) => theme.spacing[3]} ${({ theme }) => theme.spacing[4]};
+    background: linear-gradient(135deg, 
+        ${({ theme }) => theme.colors.accent1Bg} 0%, 
+        ${({ theme }) => theme.colors.accent2Bg} 50%, 
+        ${({ theme }) => theme.colors.accent3Bg} 100%);
+    background-size: 200% 200%;
+    border: none;
+    border-radius: ${({ theme }) => theme.borderRadius.md};
+    color: white;
+    font-size: ${({ theme }) => theme.typography.fontSize.sm};
+    font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+    font-family: ${({ theme }) => theme.typography.fontPrimary};
+    cursor: pointer;
+    transition: all ${({ theme }) => theme.transition.base};
+    position: relative;
+    overflow: hidden;
+    box-shadow: ${({ theme }) => theme.shadow.md};
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, 
+            transparent, 
+            rgba(255, 255, 255, 0.2), 
+            transparent);
+        transition: left 0.5s;
+    }
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: ${({ theme }) => theme.shadow.lg};
+        background-position: 100% 100%;
+        
+        &::before {
+            left: 100%;
+        }
+    }
+
+    &:active {
+        transform: translateY(0);
+        box-shadow: ${({ theme }) => theme.shadow.md};
+    }
+
+    &:focus {
+        outline: 2px solid ${({ theme }) => theme.colors.borderFocus};
+        outline-offset: 2px;
+    }
 `;
 
 export function ArtistCard({ name, quality, image, artistImage, description, descriptionCartoon, qualityCartoon }: ArtistCardProps) {
@@ -128,21 +215,13 @@ export function ArtistCard({ name, quality, image, artistImage, description, des
             
             <CardContent>
                 <ArtistName>{name}</ArtistName>
-                <QualityBadge style={{
-                    backgroundColor: showArtistImage ? tokens.colors.accent1Bg : tokens.colors.accent2Bg,
-                    color: "white",
-                }}>{showArtistImage ? quality : qualityCartoon}</QualityBadge>
+                <QualityBadge>{showArtistImage ? quality : qualityCartoon}</QualityBadge>
                 <Description>{showArtistImage ? description : descriptionCartoon}</Description>
                 
                 <CardActions>
-                    <Button
-                        view="primary"
-                        size="s"
-                        onClick={handleToggleImage}
-                        stretch
-                    >
+                    <StyledButton onClick={handleToggleImage}>
                         {buttonText}
-                    </Button>
+                    </StyledButton>
                 </CardActions>
             </CardContent>
         </StyledCard>
