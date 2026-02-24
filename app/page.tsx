@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
+import { TELEMETRY_ENDPOINT } from '@/analytics';
 import { Header } from '@/src/components/Header';
 import { ArtistCard } from '@/src/components/ArtistCard';
 import { CLSBanner } from '@/src/components/CLSBanner';
@@ -142,22 +143,41 @@ const ArtistsGrid = styled.div`
 
 export default function HomePage() {
     useEffect(() => {
-        // Инициализация телеметрии
-        try {
-            import('@sberdevices/web-telemetry/lib/presets/WebTelemetryMonitoringWebAppWithWebVitals').then(({ WebTelemetryMonitoringWebAppWithWebVitals }) => {
+        let memoryMonitor: { endMonitoring: () => void } | null = null;
+
+        const initTelemetry = async () => {
+            try {
+                const [
+                    { WebTelemetryMonitoringWebAppWithWebVitals },
+                    { KVDataMemory },
+                ] = await Promise.all([
+                    import('@salutejs/web-telemetry/lib/presets/WebTelemetryMonitoringWebAppWithWebVitals'),
+                    import('@salutejs/web-telemetry/lib/extra/KVDataMemory'),
+                ]);
+
                 const monitorInstance = WebTelemetryMonitoringWebAppWithWebVitals.Instance({
-                    projectName: 'ninja-turtles-and-renaissance-artists',
+                    endpoint: TELEMETRY_ENDPOINT,
+                    projectName: 'speed-demo',
                     debug: process.env.NODE_ENV === 'development',
                 });
 
                 monitorInstance.webApp.send();
                 monitorInstance.startMonitoring();
                 monitorInstance.startWebVitals();
-            });
 
-        } catch (error) {
-            console.log('Telemetry not available:', error);
-        }
+                const memory = new KVDataMemory(monitorInstance.KV, 5);
+                await memory.startMonitoring();
+                memoryMonitor = memory;
+            } catch (error) {
+                console.log('Telemetry not available:', error);
+            }
+        };
+
+        initTelemetry();
+
+        return () => {
+            memoryMonitor?.endMonitoring();
+        };
     }, []);
 
     return (
